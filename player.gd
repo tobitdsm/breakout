@@ -1,6 +1,10 @@
 extends Sprite2D
 
-@export var speed = 5
+var color = Color(0.5, 0.5, 0.5)
+
+var speed = 1
+
+var virus = false
 
 var keyup = Key.KEY_UP
 var keyleft = Key.KEY_LEFT
@@ -18,7 +22,13 @@ func init(up, left, down, right, action, spd) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	var virusimg = preload("res://assets/virus.png")
+	var wbcimg = preload("res://assets/whitebloodcell.png")
+	if virus:
+		self.texture = virusimg
+	else:
+		self.texture = wbcimg
+	self.scale = Vector2(0.1, 0.1)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

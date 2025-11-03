@@ -11,6 +11,7 @@ func _ready() -> void:
 		Key.KEY_SPACE,
 		speed
 	)
+	virus = true
 	super._ready()
 
 
