@@ -26,8 +26,10 @@ func _ready() -> void:
 	var wbcimg = preload("res://assets/whitebloodcell.png")
 	if virus:
 		self.texture = virusimg
+		self.get_child(0).get_child(0).shape.radius = 250
 	else:
 		self.texture = wbcimg
+		self.get_child(0).get_child(0).shape.radius = 150
 	self.scale = Vector2(0.1, 0.1)
 	self.modulate = color
 
@@ -43,3 +45,7 @@ func _process(_delta: float) -> void:
 		self.position.x -= speed
 	if Input.is_key_pressed(keyright) and self.position.x < self.get_viewport_rect().size.x:
 		self.position.x += speed
+	
+	if Input.is_key_pressed(keyaction):
+		if virus:
+			pass

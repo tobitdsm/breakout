@@ -1,0 +1,61 @@
+[gd_scene load_steps=11 format=3 uid="uid://fop01yrfd6on"]
+
+[ext_resource type="Texture2D" uid="uid://d4dkrc8n86am5" path="res://assets/icon.svg" id="1_tbgi4"]
+[ext_resource type="Script" uid="uid://bxqgfgkbjcy56" path="res://scripts/player_1.gd" id="2_tefeu"]
+[ext_resource type="Script" uid="uid://bqry0iku5ru52" path="res://scripts/player_2.gd" id="3_o6xl0"]
+[ext_resource type="Script" uid="uid://cjkdi16keevk0" path="res://scripts/player_3.gd" id="4_tipki"]
+[ext_resource type="Script" uid="uid://bw00jcmt8lupn" path="res://scripts/player_4.gd" id="5_85g3d"]
+[ext_resource type="PackedScene" uid="uid://cii1te2vvx23f" path="res://scenes/cell.tscn" id="6_tefeu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tefeu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o6xl0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tipki"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_85g3d"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="player1" type="Sprite2D" parent="."]
+position = Vector2(66, 66)
+texture = ExtResource("1_tbgi4")
+script = ExtResource("2_tefeu")
+
+[node name="Area2D" type="Area2D" parent="player1"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player1/Area2D"]
+shape = SubResource("CircleShape2D_tefeu")
+
+[node name="player2" type="Sprite2D" parent="."]
+position = Vector2(203, 200)
+texture = ExtResource("1_tbgi4")
+script = ExtResource("3_o6xl0")
+
+[node name="Area2D" type="Area2D" parent="player2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player2/Area2D"]
+shape = SubResource("CircleShape2D_o6xl0")
+
+[node name="player3" type="Sprite2D" parent="."]
+position = Vector2(204, 67)
+texture = ExtResource("1_tbgi4")
+script = ExtResource("4_tipki")
+
+[node name="Area2D" type="Area2D" parent="player3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player3/Area2D"]
+shape = SubResource("CircleShape2D_tipki")
+
+[node name="player4" type="Sprite2D" parent="."]
+position = Vector2(67, 201)
+texture = ExtResource("1_tbgi4")
+script = ExtResource("5_85g3d")
+
+[node name="Area2D" type="Area2D" parent="player4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player4/Area2D"]
+shape = SubResource("CircleShape2D_85g3d")
+
+[node name="cell" parent="." instance=ExtResource("6_tefeu")]
+position = Vector2(494.99997, 251.99998)
