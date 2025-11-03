@@ -29,6 +29,7 @@ func _ready() -> void:
 	else:
 		self.texture = wbcimg
 	self.scale = Vector2(0.1, 0.1)
+	self.modulate = color
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

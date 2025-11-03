@@ -11,6 +11,7 @@ func _ready() -> void:
 		Key.KEY_COMMA,
 		speed
 	)
+	color = Color("green")
 	super._ready()
 
 

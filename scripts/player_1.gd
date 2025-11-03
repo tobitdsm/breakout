@@ -12,6 +12,7 @@ func _ready() -> void:
 		speed
 	)
 	virus = true
+	color = Color("red")
 	super._ready()
 
 

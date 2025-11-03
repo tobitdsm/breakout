@@ -11,6 +11,7 @@ func _ready() -> void:
 		Key.KEY_V,
 		speed
 	)
+	color = Color("blue")
 	super._ready()
 
 
