@@ -11,6 +11,7 @@ func init(i):
 func _ready() -> void:
 	cooldown = 10
 	super._ready()
+	get_parent().get_child(0).modulate = self.modulate * Color(.5,.5,.5)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,4 +30,5 @@ func _process(delta: float) -> void:
 				c.s *= (2./3.)
 				area.get_parent().modulate = c
 				area.get_parent().contaminated = true
+				area.get_parent().sick = area.get_parent().sick_cooldown
 				get_parent().contaminated += 1

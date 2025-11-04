@@ -1,6 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://fop01yrfd6on"]
+[gd_scene load_steps=3 format=3 uid="uid://fop01yrfd6on"]
 
 [ext_resource type="Script" uid="uid://bv34ngmorseus" path="res://scripts/main.gd" id="1_o6xl0"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_o5qli"]
+
 [node name="root" type="Node2D"]
 script = ExtResource("1_o6xl0")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 47.0
+offset_bottom = 23.0
+text = "100%"
+label_settings = SubResource("LabelSettings_o5qli")
+horizontal_alignment = 1
+vertical_alignment = 1
