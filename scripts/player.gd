@@ -2,7 +2,7 @@ extends Sprite2D
 
 var color = Color(0.5, 0.5, 0.5)
 
-const speed = 1
+var speed = 1
 
 var cooldown = 5
 var wait = 0
@@ -55,8 +55,8 @@ func init(i) -> void:
 	keyright = keys[i][3]
 	keyaction = keys[i][4]
 	color = colors[i]
-	self.modulate = color
-	self.get_child(1).modulate = color
+	self.modulate = color + Color(.75,.75,.75)
+	self.get_child(1).modulate = color + Color(.5,.5,.5)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

@@ -5,10 +5,7 @@ var cells = 1000
 var vi = randi() % 4
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	self.get_child(0).label_settings.font_size = get_viewport_rect().size.x / 50
-	self.get_child(0).position.x = (get_viewport_rect().size.x - self.get_child(0).label_settings.font_size) / 2
-	
+func _ready() -> void:	
 	var cell = preload("res://scenes/cell.tscn")
 	for _i in cells:
 		var c = cell.instantiate()
@@ -34,7 +31,10 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	self.get_child(0).text = str(contaminated * 100 / cells) + "%"
+	self.get_child(0).label_settings.font_size = get_viewport_rect().size.x / 50
+	self.get_child(0).position.x = (get_viewport_rect().size.x - self.get_child(0).label_settings.font_size) / 2
+	
+	self.get_child(0).text = str(contaminated * 100. / cells) + "%"
 	if contaminated == cells:
 		print("Virus wins!")
 		self.queue_free()

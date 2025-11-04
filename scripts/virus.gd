@@ -11,12 +11,13 @@ func init(i):
 func _ready() -> void:
 	cooldown = 10
 	super._ready()
-	get_parent().get_child(0).modulate = self.modulate * Color(.5,.5,.5)
+	get_parent().get_child(0).modulate = color
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	super._process(delta)
+	speed = 2 - (health/10)
 	var size = max_size * ((1. / max_health) * health)
 	self.scale = Vector2(size, size)
 	if wait > 0:
@@ -26,9 +27,8 @@ func _process(delta: float) -> void:
 		for area in areas:
 			if area.is_in_group("cell") and not area.get_parent().contaminated:
 				wait = cooldown
-				var c = color
-				c.s *= (2./3.)
-				area.get_parent().modulate = c
+				area.get_parent().color = color
 				area.get_parent().contaminated = true
 				area.get_parent().sick = area.get_parent().sick_cooldown
+				area.get_parent().healed = 0
 				get_parent().contaminated += 1

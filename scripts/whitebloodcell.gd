@@ -19,7 +19,7 @@ func _process(delta: float) -> void:
 		for area in areas:
 			if area.is_in_group("cell") and area.get_parent().contaminated:
 				wait = cooldown
-				area.get_parent().modulate = Color(1,1,1)
+				area.get_parent().color = color
 				area.get_parent().contaminated = false
 				area.get_parent().healed = area.get_parent().healed_cooldown
 				area.get_parent().sick = 0

@@ -2,10 +2,14 @@ extends Sprite2D
 
 var contaminated = false
 
+var time = 0
+
+var color = Color(1,1,1)
+
 const healed_cooldown = 5
 var healed = 0
 
-const sick_cooldown = 20
+const sick_cooldown = 15
 var sick = 0
 
 var rot = randf() * 360
@@ -20,6 +24,19 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	var base_color = Color(1.5,1.5,1.5)
+	var left = 0
+	if contaminated:
+		left = ((sick_cooldown - sick) * 1.) / sick_cooldown
+		base_color = color + Color(.25,.25,.25)
+	elif healed > 0:
+		left = ((healed_cooldown - healed) * 1.) / healed_cooldown
+		base_color = color + Color(.25,.25,.25)
+	var r = base_color.r + (1.5 - base_color.r) * (left)
+	var g = base_color.g + (1.5 - base_color.g) * (left)
+	var b = base_color.b + (1.5 - base_color.b) * (left)
+	self.modulate = Color(r,g,b)
+	
 	var viewport_size = get_viewport_rect().size
 	rot += (randf() - 0.5) * 0.5
 
@@ -39,12 +56,12 @@ func _process(delta: float) -> void:
 	for area in areas:
 		if area.is_in_group("cell"):
 			if self.contaminated and not area.get_parent().contaminated and area.get_parent().healed <= 0:
-				area.get_parent().modulate = self.modulate
+				area.get_parent().color = color
 				area.get_parent().contaminated = true
 				area.get_parent().sick = sick_cooldown
 				get_parent().contaminated += 1
 			elif not self.contaminated and healed > 0 and area.get_parent().contaminated:
-				area.get_parent().modulate = Color(1,1,1)
+				area.get_parent().color = color
 				area.get_parent().contaminated = false
 				area.get_parent().healed = healed_cooldown
 				area.get_parent().sick = 0
@@ -52,13 +69,12 @@ func _process(delta: float) -> void:
 	
 	if healed > 0:
 		healed -= delta
-		self.get_child(1).scale.x = healed * 100
+	elif not contaminated and color != Color(1,1,1):
+		color = Color(1,1,1)
 	
 	if sick > 0:
 		sick -= delta
-		self.get_child(1).scale.x = sick * 25
 	elif contaminated:
 		contaminated = false
-		self.modulate = Color(1,1,1)
+		color = Color(1,1,1)
 		self.get_parent().contaminated -= 1
-	self.get_child(1).modulate = self.modulate
