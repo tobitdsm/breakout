@@ -65,7 +65,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	self.get_child(1).scale.x = floor(((wait*1.) / (cooldown*1.)) * 500)
+	self.get_child(1).scale.x = floor(((wait*1.) / (cooldown*1.)) * 500) if wait > 0 else 0
 	if Input.is_key_pressed(keyup) and self.position.y > 0:
 		self.position.y -= speed
 	if Input.is_key_pressed(keydown) and self.position.y < self.get_viewport_rect().size.y:

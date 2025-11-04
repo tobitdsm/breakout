@@ -1,16 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://fop01yrfd6on"]
+[gd_scene load_steps=4 format=3 uid="uid://fop01yrfd6on"]
 
 [ext_resource type="Script" uid="uid://bv34ngmorseus" path="res://scripts/main.gd" id="1_o6xl0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_o5qli"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_0wfyh"]
+
 [node name="root" type="Node2D"]
 script = ExtResource("1_o6xl0")
 
-[node name="Label" type="Label" parent="."]
+[node name="contaminated" type="Label" parent="."]
 offset_right = 47.0
 offset_bottom = 23.0
 text = "100%"
 label_settings = SubResource("LabelSettings_o5qli")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="cells" type="Label" parent="."]
+offset_left = 40.0
+offset_top = 10.0
+offset_right = 80.0
+offset_bottom = 33.0
+label_settings = SubResource("LabelSettings_0wfyh")

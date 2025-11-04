@@ -32,23 +32,36 @@ func _process(delta: float) -> void:
 	elif healed > 0:
 		left = ((healed_cooldown - healed) * 1.) / healed_cooldown
 		base_color = color + Color(.25,.25,.25)
-	var r = base_color.r + (1.5 - base_color.r) * (left)
-	var g = base_color.g + (1.5 - base_color.g) * (left)
-	var b = base_color.b + (1.5 - base_color.b) * (left)
+	var r = base_color.r + (-2 if contaminated else 1) * (1.5 - base_color.r) * (left)
+	var g = base_color.g + (-2 if contaminated else 1) * (1.5 - base_color.g) * (left)
+	var b = base_color.b + (-2 if contaminated else 1) * (1.5 - base_color.b) * (left)
 	self.modulate = Color(r,g,b)
 	
 	var viewport_size = get_viewport_rect().size
 	rot += (randf() - 0.5) * 0.5
 
-	if position.x < scared_distance:
-		rot = lerp_angle(rot, 0, 0.1)
-	elif position.x > viewport_size.x - scared_distance:
-		rot = lerp_angle(rot, PI, 0.1)
+	var at_left   = position.x < scared_distance
+	var at_right  = position.x > viewport_size.x - scared_distance
+	var at_top    = position.y < scared_distance
+	var at_bottom = position.y > viewport_size.y - scared_distance
 
-	if position.y < scared_distance:
-		rot = lerp_angle(rot, PI/2, 0.1)
-	elif position.y > viewport_size.y - scared_distance:
-		rot = lerp_angle(rot, -PI/2, 0.1)
+	if (at_left or at_right) and (at_top or at_bottom):
+		# Corner case
+		var corner_dir = Vector2(
+			1 if at_left else -1,
+			1 if at_top else -1
+		).normalized()
+		rot = lerp_angle(rot, corner_dir.angle(), 0.2)
+	else:
+		if at_left:
+			rot = lerp_angle(rot, 0, 0.1)
+		elif at_right:
+			rot = lerp_angle(rot, PI, 0.1)
+
+		if at_top:
+			rot = lerp_angle(rot, PI/2, 0.1)
+		elif at_bottom:
+			rot = lerp_angle(rot, -PI/2, 0.1)
 
 	position += Vector2(cos(rot), sin(rot)) * speed * delta
 	
@@ -75,6 +88,6 @@ func _process(delta: float) -> void:
 	if sick > 0:
 		sick -= delta
 	elif contaminated:
-		contaminated = false
-		color = Color(1,1,1)
 		self.get_parent().contaminated -= 1
+		self.get_parent().cells -= 1
+		self.queue_free()
