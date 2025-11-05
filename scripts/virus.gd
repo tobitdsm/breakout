@@ -1,7 +1,4 @@
 extends "player.gd"
-
-const max_health = 10.
-var health = max_health
 const max_size = 0.1
 
 func init(i):
@@ -17,9 +14,6 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	super._process(delta)
-	speed = 2 - (health/10)
-	var size = max_size * ((1. / max_health) * health)
-	self.scale = Vector2(size, size)
 	if wait > 0:
 		wait -= delta
 	elif Input.is_key_pressed(keyaction):

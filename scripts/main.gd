@@ -5,15 +5,18 @@ const max_cells = 1000
 var cells = 1000
 var vi = randi() % 4
 
+var init_children = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	init_children = get_child_count()
 	init()
 
 func init() -> void:
 	cells = max_cells
 	contaminated = 0
 	for i in get_child_count():
-		if i >= 2:
+		if i >= init_children:
 			get_child(i).queue_free()
 	var cell = preload("res://scenes/cell.tscn")
 	for _i in cells:
@@ -40,14 +43,14 @@ func init() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	self.get_child(0).label_settings.font_size = get_viewport_rect().size.x / 50
-	self.get_child(0).position.x = (get_viewport_rect().size.x - self.get_child(0).label_settings.font_size) / 2
+	%contaminated.label_settings.font_size = get_viewport_rect().size.x / 50
+	%contaminated.position.x = (get_viewport_rect().size.x - %contaminated.label_settings.font_size) / 2
 	
-	self.get_child(1).label_settings.font_size = get_viewport_rect().size.x / 50
-	self.get_child(1).position.x = self.get_child(0).position.x - len(self.get_child(1).text) * self.get_child(1).label_settings.font_size
+	%cells.label_settings.font_size = get_viewport_rect().size.x / 50
+	%cells.position.x = %cells.position.x - len(%cells.text) * %cells.label_settings.font_size
 	
-	self.get_child(0).text = str(round(contaminated * 1000. / cells) / 10.) + "%"
-	self.get_child(1).text = str(round(cells * 1000. / max_cells) / 10.) + "%"
+	%contaminated.text = str(round(contaminated * 1000. / cells) / 10.) + "%"
+	%cells.text = str(round(cells * 1000. / max_cells) / 10.) + "%"
 	
 	if contaminated == cells:
 		print("Virus wins!")
