@@ -1,8 +1,8 @@
 extends Node2D
 
 var contaminated = 0
-const max_cells = 1000
-var cells = 1000
+var max_cells = 500
+var cells = 500
 var vi = randi() % 4
 
 var init_children = 0
@@ -13,19 +13,32 @@ func _ready() -> void:
 	init()
 
 func init() -> void:
-	cells = max_cells
-	contaminated = 0
 	for i in get_child_count():
 		if i >= init_children:
 			get_child(i).queue_free()
+	
+	if get_child(0).is_in_group("tile"):
+		get_child(0).queue_free()
+	var maps := DirAccess.open("res://scenes/maps")
+	var ind = randi_range(0, len(maps.get_files()) - 1)
+	var map = load("res://scenes/maps/" + maps.get_files()[ind])
+	map = map.instantiate()
+	add_child(map)
+	move_child(map,0)
+	
+	cells = max_cells
+	contaminated = 0
 	var cell = preload("res://scenes/cell.tscn")
 	for _i in cells:
 		var c = cell.instantiate()
 		add_child(c)
-		c.position = Vector2(
-			randf_range(0, get_viewport_rect().size.x - c.scale.x),
-			randf_range(0, get_viewport_rect().size.y - c.scale.x)
-		)
+		var colliding = true
+		while colliding:
+			c.position = Vector2(
+				randf_range(0, get_viewport_rect().size.x - c.scale.x),
+				randf_range(0, get_viewport_rect().size.y - c.scale.x)
+			)
+			colliding = is_colliding(c)
 	
 	var virus = preload("res://scenes/virus.tscn")
 	var wbc = preload("res://scenes/whitebloodcell.tscn")
@@ -34,28 +47,33 @@ func init() -> void:
 		var c = wbc.instantiate()
 		if i == vi:
 			c = virus.instantiate()
+			%contaminated.modulate = c.colors[vi]
 		c.init(i)
 		add_child(c)
-		c.position = Vector2(
-			randf_range(0, get_viewport_rect().size.x - c.scale.x),
-			randf_range(0, get_viewport_rect().size.y - c.scale.x)
-		)
+		var colliding = true
+		while colliding:
+			c.position = Vector2(
+				randf_range(0, get_viewport_rect().size.x - c.scale.x),
+				randf_range(0, get_viewport_rect().size.y - c.scale.x)
+			)
+			colliding = is_colliding(c)
+	
+	%won.text = ""
+
+func is_colliding(c: RigidBody2D) -> bool:
+	var cell = get_child(0).local_to_map(c.position)
+	var tiledata: TileData = get_child(0).get_cell_tile_data(cell)
+	return tiledata.terrain == 1
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	%contaminated.label_settings.font_size = get_viewport_rect().size.x / 50
-	%contaminated.position.x = (get_viewport_rect().size.x - %contaminated.label_settings.font_size) / 2
-	
-	%cells.label_settings.font_size = get_viewport_rect().size.x / 50
-	%cells.position.x = %cells.position.x - len(%cells.text) * %cells.label_settings.font_size
-	
 	%contaminated.text = str(round(contaminated * 1000. / cells) / 10.) + "%"
 	%cells.text = str(round(cells * 1000. / max_cells) / 10.) + "%"
 	
-	if contaminated == cells:
-		print("Virus wins!")
+	if %won.text != "":
 		init()
 	
+	if contaminated == cells:
+		%won.text = "Virus wins!"	
 	if contaminated == 0 and cells < max_cells:
-		print("White Bloodcells win!")
-		init()
+		%won.text = "White Bloodcells win!"

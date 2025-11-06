@@ -24,6 +24,3 @@ func _process(delta: float) -> void:
 				area.get_parent().healed = area.get_parent().healed_cooldown
 				area.get_parent().sick = 0
 				get_parent().contaminated -= 1
-			elif area.is_in_group("virus"):
-				area.get_parent().health -= 1
-				wait = cooldown

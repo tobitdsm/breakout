@@ -1,4 +1,4 @@
-extends Sprite2D
+extends RigidBody2D
 
 var contaminated = false
 
@@ -15,11 +15,15 @@ var sick = 0
 var rot = randf() * 360
 
 const scared_distance = 50.0
-const speed = 25
+const speed = .75
+
+var colliding = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	contact_monitor = true
+	max_contacts_reported = 5
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -37,33 +41,12 @@ func _process(delta: float) -> void:
 	var b = base_color.b + (-2 if contaminated else 1) * (1.5 - base_color.b) * (left)
 	self.modulate = Color(r,g,b)
 	
-	var viewport_size = get_viewport_rect().size
 	rot += (randf() - 0.5) * 0.5
-
-	var at_left   = position.x < scared_distance
-	var at_right  = position.x > viewport_size.x - scared_distance
-	var at_top    = position.y < scared_distance
-	var at_bottom = position.y > viewport_size.y - scared_distance
-
-	if (at_left or at_right) and (at_top or at_bottom):
-		# Corner case
-		var corner_dir = Vector2(
-			1 if at_left else -1,
-			1 if at_top else -1
-		).normalized()
-		rot = lerp_angle(rot, corner_dir.angle(), 0.2)
-	else:
-		if at_left:
-			rot = lerp_angle(rot, 0, 0.1)
-		elif at_right:
-			rot = lerp_angle(rot, PI, 0.1)
-
-		if at_top:
-			rot = lerp_angle(rot, PI/2, 0.1)
-		elif at_bottom:
-			rot = lerp_angle(rot, -PI/2, 0.1)
-
-	position += Vector2(cos(rot), sin(rot)) * speed * delta
+	linear_velocity = Vector2(cos(rot), sin(rot)) * speed
+	var collision = move_and_collide(linear_velocity)
+	if collision:
+		rot = 2 * collision.get_normal().angle() - rot + 180
+	
 	
 	var areas = self.get_child(0).get_overlapping_areas()
 	for area in areas:
@@ -91,3 +74,19 @@ func _process(delta: float) -> void:
 		self.get_parent().contaminated -= 1
 		self.get_parent().cells -= 1
 		self.queue_free()
+	
+	if is_colliding():
+		get_parent().max_cells -= 1
+		get_parent().cells -= 1
+		if contaminated:
+			get_parent().contaminated -= 1
+		self.queue_free()
+
+func is_colliding() -> bool:
+	var tml: TileMapLayer = get_parent().get_child(0)
+	var cell := tml.local_to_map(position)
+	var tiledata: TileData = tml.get_cell_tile_data(cell)
+	if tiledata:
+		return tiledata.terrain == 1
+	else:
+		return true

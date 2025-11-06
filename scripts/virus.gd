@@ -1,5 +1,4 @@
 extends "player.gd"
-const max_size = 0.1
 
 func init(i):
 	super.init(i)
@@ -8,7 +7,6 @@ func init(i):
 func _ready() -> void:
 	cooldown = 10
 	super._ready()
-	get_parent().get_child(0).modulate = color
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

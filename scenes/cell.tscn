@@ -1,17 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://cii1te2vvx23f"]
+[gd_scene load_steps=5 format=3 uid="uid://cii1te2vvx23f"]
 
 [ext_resource type="Texture2D" uid="uid://db3m1d2q0rpr4" path="res://assets/cell.png" id="1_upbjj"]
 [ext_resource type="Script" uid="uid://bbq6suswlrrju" path="res://scripts/cell.gd" id="2_0s7o3"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_upbjj"]
-radius = 172.79
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0s7o3"]
 
-[node name="cell" type="Sprite2D"]
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("1_upbjj")
+[sub_resource type="CircleShape2D" id="CircleShape2D_nm02e"]
+radius = 4.5
+
+[node name="RigidBody2D" type="RigidBody2D"]
+collision_layer = 0
+physics_material_override = SubResource("PhysicsMaterial_0s7o3")
+gravity_scale = 0.0
 script = ExtResource("2_0s7o3")
 
 [node name="Area2D" type="Area2D" parent="." groups=["cell"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_upbjj")
+shape = SubResource("CircleShape2D_nm02e")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.025, 0.025)
+texture = ExtResource("1_upbjj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nm02e")

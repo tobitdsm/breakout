@@ -1,11 +1,13 @@
-extends Sprite2D
+extends RigidBody2D
 
 var color = Color(0.5, 0.5, 0.5)
 
-var speed = 1
+var speed = 1.5
 
 var cooldown = 5
 var wait = 0
+
+var colliding = 0
 
 var keyup = Key.KEY_UP
 var keyleft = Key.KEY_LEFT
@@ -62,16 +64,23 @@ func init(i) -> void:
 func _ready() -> void:
 	pass
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	self.get_child(1).scale.x = floor(((wait*1.) / (cooldown*1.)) * 500) if wait > 0 else 0
-	if Input.is_key_pressed(keyup) and self.position.y > 0:
-		self.position.y -= speed
-	if Input.is_key_pressed(keydown) and self.position.y < self.get_viewport_rect().size.y:
-		self.position.y += speed
+	self.get_child(1).scale.x = floor(((wait*1.) / (cooldown*1.)) * 25) if wait > 0 else 0
+	var viewport_size = get_viewport_rect().size
+	var vel := Vector2.ZERO
+
+	if Input.is_key_pressed(keyup) and position.y > 0:
+		vel.y -= 1
+	if Input.is_key_pressed(keydown) and position.y < viewport_size.y:
+		vel.y += 1
+
+	if Input.is_key_pressed(keyleft) and position.x > 0:
+		vel.x -= 1
+	if Input.is_key_pressed(keyright) and position.x < viewport_size.x:
+		vel.x += 1
+
+	vel = vel.normalized() * speed
+	linear_velocity = vel
 	
-	if Input.is_key_pressed(keyleft) and self.position.x > 0:
-		self.position.x -= speed
-	if Input.is_key_pressed(keyright) and self.position.x < self.get_viewport_rect().size.x:
-		self.position.x += speed
+	move_and_collide(vel)
