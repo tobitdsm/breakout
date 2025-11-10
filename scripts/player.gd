@@ -7,7 +7,9 @@ var speed = 1.5
 var cooldown = 5
 var wait = 0
 
-var colliding = 0
+var checkwall = true
+
+var size
 
 var keyup = Key.KEY_UP
 var keyleft = Key.KEY_LEFT
@@ -62,10 +64,30 @@ func init(i) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	contact_monitor = true
+	max_contacts_reported = 5
+	
+	size = self.get_child(2).scale * 500
+
+func colliding_wall() -> bool:
+	var bodies := self.get_colliding_bodies()
+	for body in bodies:
+		if body.is_in_group("tile"):
+			return true
+	return false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	if checkwall:
+		var valid = get_parent().is_valid(self.position) and not self.colliding_wall()
+		if not valid:
+			self.position += Vector2(
+				randf_range(-1,1),
+				randf_range(-1,1)
+			)
+			valid = get_parent().is_valid(self.position) and not self.colliding_wall()
+		checkwall = not valid
+	
 	self.get_child(1).scale.x = floor(((wait*1.) / (cooldown*1.)) * 25) if wait > 0 else 0
 	var viewport_size = get_viewport_rect().size
 	var vel := Vector2.ZERO

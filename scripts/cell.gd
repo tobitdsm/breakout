@@ -19,6 +19,8 @@ const speed = .75
 
 var colliding = 0
 
+var oldpos := position
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	contact_monitor = true
@@ -43,6 +45,7 @@ func _process(delta: float) -> void:
 	
 	rot += (randf() - 0.5) * 0.5
 	linear_velocity = Vector2(cos(rot), sin(rot)) * speed
+	oldpos = position
 	var collision = move_and_collide(linear_velocity)
 	if collision:
 		rot = 2 * collision.get_normal().angle() - rot + 180
@@ -83,10 +86,11 @@ func _process(delta: float) -> void:
 		self.queue_free()
 
 func is_colliding() -> bool:
+	if position.x < 0 or position.x > get_viewport_rect().size.x or position.y < 0 or position.y > get_viewport_rect().size.y: return true
 	var tml: TileMapLayer = get_parent().get_child(0)
 	var cell := tml.local_to_map(position)
 	var tiledata: TileData = tml.get_cell_tile_data(cell)
 	if tiledata:
-		return tiledata.terrain == 1
+		return tiledata.terrain == 1 or oldpos == position
 	else:
-		return true
+		return oldpos == position
