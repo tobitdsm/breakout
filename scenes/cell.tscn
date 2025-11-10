@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cii1te2vvx23f"]
 
-[ext_resource type="Texture2D" uid="uid://db3m1d2q0rpr4" path="res://assets/cell.png" id="1_upbjj"]
+[ext_resource type="Texture2D" uid="uid://db3m1d2q0rpr4" path="res://assets/images/cell.png" id="1_upbjj"]
 [ext_resource type="Script" uid="uid://bbq6suswlrrju" path="res://scripts/cell.gd" id="2_0s7o3"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0s7o3"]

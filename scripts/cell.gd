@@ -25,6 +25,7 @@ var oldpos := position
 func _ready() -> void:
 	contact_monitor = true
 	max_contacts_reported = 5
+	contaminated = false
 
 
 

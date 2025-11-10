@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://c2pugkcdh7pwj"]
 
-[ext_resource type="Texture2D" uid="uid://dg8wo17u060co" path="res://assets/virus.png" id="1_s0dvx"]
+[ext_resource type="Texture2D" uid="uid://dg8wo17u060co" path="res://assets/images/virus.png" id="1_s0dvx"]
 [ext_resource type="Script" uid="uid://cq4w4oxmvxli5" path="res://scripts/virus.gd" id="2_0kg14"]
-[ext_resource type="Texture2D" uid="uid://dly2gpynq15kc" path="res://assets/meter.png" id="2_8wh0f"]
+[ext_resource type="Texture2D" uid="uid://dly2gpynq15kc" path="res://assets/images/meter.png" id="2_8wh0f"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0kg14"]
 radius = 14.0

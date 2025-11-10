@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://db3m1d2q0rpr4"
-path="res://.godot/imported/cell.png-c5f345c9088171bec7393a69698d29b8.ctex"
+uid="uid://diivnb330sc55"
+path="res://.godot/imported/whitebloodcell.png-23a90132651fe1260d1354b721aac338.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cell.png"
-dest_files=["res://.godot/imported/cell.png-c5f345c9088171bec7393a69698d29b8.ctex"]
+source_file="res://assets/images/whitebloodcell.png"
+dest_files=["res://.godot/imported/whitebloodcell.png-23a90132651fe1260d1354b721aac338.ctex"]
 
 [params]
 

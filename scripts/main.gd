@@ -8,6 +8,8 @@ var vi = randi() % 4
 
 var init_children = 0
 
+var text_cooldown = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	init_children = get_child_count()
@@ -28,7 +30,6 @@ func init() -> void:
 	move_child(map,0)
 	
 	max_cells = init_cells
-	cells = max_cells
 	contaminated = 0
 	var cell = preload("res://scenes/cell.tscn")
 	for _i in init_cells:
@@ -42,7 +43,7 @@ func init() -> void:
 			c.position = pos
 		else:
 			max_cells -= 1
-			cells -= 1
+	cells = max_cells
 	
 	var virus = preload("res://scenes/virus.tscn")
 	var wbc = preload("res://scenes/whitebloodcell.tscn")
@@ -62,7 +63,9 @@ func init() -> void:
 			)
 			valid = is_valid(c.position)
 	
-	%won.text = ""
+	%won.text = ["Red","Green","Blue","Purple"][vi] + " is virus"
+	%won.modulate = virus.instantiate().colors[vi]
+	text_cooldown = 1
 	# play intro sound (map-related)
 
 func is_valid(pos: Vector2) -> bool:
@@ -74,13 +77,19 @@ func is_valid(pos: Vector2) -> bool:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	text_cooldown -= _delta
+	if text_cooldown < 0:
+		%won.text = ""
+	
 	%contaminated.text = str(round(contaminated * 1000. / cells) / 10.) + "%"
 	%cells.text = str(round(cells * 1000. / max_cells) / 10.) + "%"
 	
-	if %won.text != "":
+	if %won.text != "" and text_cooldown < 0:
 		init()
 	
 	if contaminated == cells:
-		%won.text = "Virus wins!"	
+		%won.text = "Virus wins!"
+		%won.modulate = Color(1,1,1)
 	if contaminated == 0 and cells < max_cells:
 		%won.text = "White Bloodcells win!"
+		%won.modulate = Color(1,1,1)

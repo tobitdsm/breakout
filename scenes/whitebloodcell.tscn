@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bntujktsecwvv"]
 
-[ext_resource type="Texture2D" uid="uid://diivnb330sc55" path="res://assets/whitebloodcell.png" id="1_cdo6j"]
-[ext_resource type="Texture2D" uid="uid://dly2gpynq15kc" path="res://assets/meter.png" id="2_digf7"]
+[ext_resource type="Texture2D" uid="uid://diivnb330sc55" path="res://assets/images/whitebloodcell.png" id="1_cdo6j"]
+[ext_resource type="Texture2D" uid="uid://dly2gpynq15kc" path="res://assets/images/meter.png" id="2_digf7"]
 [ext_resource type="Script" uid="uid://bfa3hlfpedswv" path="res://scripts/whitebloodcell.gd" id="2_lj21t"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ibwa4"]

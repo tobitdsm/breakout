@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dg8wo17u060co"
-path="res://.godot/imported/virus.png-b35f2b75f8c1847ebc4a9c9a599efb86.ctex"
+uid="uid://db3m1d2q0rpr4"
+path="res://.godot/imported/cell.png-ec3da6f84c7c3f79f42d0dfe02858107.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/virus.png"
-dest_files=["res://.godot/imported/virus.png-b35f2b75f8c1847ebc4a9c9a599efb86.ctex"]
+source_file="res://assets/images/cell.png"
+dest_files=["res://.godot/imported/cell.png-ec3da6f84c7c3f79f42d0dfe02858107.ctex"]
 
 [params]
 
