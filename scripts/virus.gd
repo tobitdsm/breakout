@@ -14,7 +14,7 @@ func _process(delta: float) -> void:
 	super._process(delta)
 	if wait > 0:
 		wait -= delta
-	elif Input.is_key_pressed(keyaction):
+	elif Input.is_physical_key_pressed(keyaction):
 		var areas = self.get_child(0).get_overlapping_areas()
 		for area in areas:
 			if area.is_in_group("cell") and not area.get_parent().contaminated:

@@ -77,21 +77,31 @@ func _process(delta: float) -> void:
 	elif contaminated:
 		self.get_parent().contaminated -= 1
 		self.get_parent().cells -= 1
+		#print("contaminated died")
+		#print(get_parent().max_cells)
+		#print(get_parent().cells)
+		#print(get_parent().contaminated)
+		#print()
 		self.queue_free()
-	
-	if is_colliding():
+	elif is_colliding():
 		get_parent().max_cells -= 1
 		get_parent().cells -= 1
 		if contaminated:
 			get_parent().contaminated -= 1
+		#print("cell in wall")
+		#print(get_parent().max_cells)
+		#print(get_parent().cells)
+		#print(get_parent().contaminated)
+		#print()
 		self.queue_free()
 
 func is_colliding() -> bool:
-	if position.x < 0 or position.x > get_viewport_rect().size.x or position.y < 0 or position.y > get_viewport_rect().size.y: return true
+	if position.x <= 0 or position.x >= get_viewport_rect().size.x or position.y <= 0 or position.y >= get_viewport_rect().size.y:
+		return true
 	var tml: TileMapLayer = get_parent().get_child(0)
 	var cell := tml.local_to_map(position)
 	var tiledata: TileData = tml.get_cell_tile_data(cell)
 	if tiledata:
 		return tiledata.terrain == 1 or oldpos == position
 	else:
-		return oldpos == position
+		return true

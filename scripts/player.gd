@@ -17,48 +17,13 @@ var keydown = Key.KEY_DOWN
 var keyright = Key.KEY_RIGHT
 var keyaction = Key.KEY_SHIFT
 
-const keys = [
-	[
-		Key.KEY_Z,
-		Key.KEY_Q,
-		Key.KEY_S,
-		Key.KEY_D,
-		Key.KEY_SPACE
-	], [
-		Key.KEY_T,
-		Key.KEY_F,
-		Key.KEY_G,
-		Key.KEY_H,
-		Key.KEY_V
-	], [
-		Key.KEY_I,
-		Key.KEY_J,
-		Key.KEY_K,
-		Key.KEY_L,
-		Key.KEY_COMMA
-	], [
-		Key.KEY_KP_8,
-		Key.KEY_KP_4,
-		Key.KEY_KP_5,
-		Key.KEY_KP_6,
-		Key.KEY_KP_0
-	]
-]
-
-const colors = [
-	Color("red"),
-	Color("green"),
-	Color("blue"),
-	Color("purple")
-]
-
 func init(i) -> void:
-	keyup = keys[i][0]
-	keyleft = keys[i][1]
-	keydown = keys[i][2]
-	keyright = keys[i][3]
-	keyaction = keys[i][4]
-	color = colors[i]
+	keyup = get_parent().keys[i][0]
+	keyleft = get_parent().keys[i][1]
+	keydown = get_parent().keys[i][2]
+	keyright = get_parent().keys[i][3]
+	keyaction = get_parent().keys[i][4]
+	color = get_parent().colors[i]
 	self.modulate = color + Color(.75,.75,.75)
 	self.get_child(1).modulate = color + Color(.5,.5,.5)
 
@@ -92,14 +57,14 @@ func _process(_delta: float) -> void:
 	var viewport_size = get_viewport_rect().size
 	var vel := Vector2.ZERO
 
-	if Input.is_key_pressed(keyup) and position.y > 0:
+	if Input.is_physical_key_pressed(keyup) and position.y > 0:
 		vel.y -= 1
-	if Input.is_key_pressed(keydown) and position.y < viewport_size.y:
+	if Input.is_physical_key_pressed(keydown) and position.y < viewport_size.y:
 		vel.y += 1
 
-	if Input.is_key_pressed(keyleft) and position.x > 0:
+	if Input.is_physical_key_pressed(keyleft) and position.x > 0:
 		vel.x -= 1
-	if Input.is_key_pressed(keyright) and position.x < viewport_size.x:
+	if Input.is_physical_key_pressed(keyright) and position.x < viewport_size.x:
 		vel.x += 1
 
 	vel = vel.normalized() * speed
