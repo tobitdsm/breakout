@@ -35,6 +35,8 @@ func _ready() -> void:
 	size = self.get_child(2).scale * 500
 
 func colliding_wall() -> bool:
+	if not get_parent().is_valid(position):
+		return true
 	var bodies := self.get_colliding_bodies()
 	for body in bodies:
 		if body.is_in_group("tile"):
@@ -46,9 +48,9 @@ func _process(_delta: float) -> void:
 	if checkwall:
 		var valid = get_parent().is_valid(self.position) and not self.colliding_wall()
 		if not valid:
-			self.position += Vector2(
-				randf_range(-1,1),
-				randf_range(-1,1)
+			self.position = Vector2(
+				randf_range(self.size.x, get_viewport_rect().size.x - self.size.x),
+				randf_range(self.size.y, get_viewport_rect().size.y - self.size.y)
 			)
 			valid = get_parent().is_valid(self.position) and not self.colliding_wall()
 		checkwall = not valid

@@ -77,22 +77,12 @@ func _process(delta: float) -> void:
 	elif contaminated:
 		self.get_parent().contaminated -= 1
 		self.get_parent().cells -= 1
-		#print("contaminated died")
-		#print(get_parent().max_cells)
-		#print(get_parent().cells)
-		#print(get_parent().contaminated)
-		#print()
 		self.queue_free()
 	elif is_colliding():
 		get_parent().max_cells -= 1
 		get_parent().cells -= 1
 		if contaminated:
 			get_parent().contaminated -= 1
-		#print("cell in wall")
-		#print(get_parent().max_cells)
-		#print(get_parent().cells)
-		#print(get_parent().contaminated)
-		#print()
 		self.queue_free()
 
 func is_colliding() -> bool:

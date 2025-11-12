@@ -8,6 +8,14 @@ var vi = randi() % 4
 
 #var old_cells = 0
 
+var roundtime = 0
+var scores = [
+	0, # red
+	0, # green
+	0, # blue
+	0  # purple
+]
+
 var init_children = 0
 
 var text_cooldown = 0
@@ -58,12 +66,22 @@ const colors = [
 func _ready() -> void:
 	%cells.visible = false
 	%contaminated.visible = false
+	%red_score.visible = false
+	%green_score.visible = false
+	%blue_score.visible = false
+	%purple_score.visible = false
+	%time.visible = false
 	init_children = get_child_count() - 1
 	make_cells()
 
 func init() -> void:
 	%cells.visible = true
 	%contaminated.visible = true
+	%red_score.visible = true
+	%green_score.visible = true
+	%blue_score.visible = true
+	%purple_score.visible = true
+	%time.visible = true
 	
 	for i in get_child_count():
 		if i >= init_children:
@@ -106,6 +124,7 @@ func init() -> void:
 	#print(cells)
 	#print(contaminated)
 	#print()
+	roundtime = 0
 	
 	# play intro sound (map-related)
 
@@ -136,18 +155,25 @@ func is_valid(pos: Vector2) -> bool:
 	return tiledata.terrain == 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	#if cells != old_cells:
-		#print("#cells changed: ", old_cells, " -> ", cells)
-		#print()
-	#old_cells = cells
+func _process(delta: float) -> void:
 	
-	text_cooldown -= _delta
+	if cells != get_child_count() - init_children - 4:
+		cells += 1
+		max_cells += 1
+	
+	roundtime += delta
+	
+	text_cooldown -= delta
 	if text_cooldown < 0 and started and %won.text.ends_with("virus"):
 		%won.text = ""
 	
 	%contaminated.text = str(round(contaminated * 1000. / cells) / 10.) + "%"
 	%cells.text = str(round(cells * 1000. / max_cells) / 10.) + "%"
+	%red_score.text = str(int(scores[0] * 100))
+	%green_score.text = str(int(scores[1] * 100))
+	%blue_score.text = str(int(scores[2] * 100))
+	%purple_score.text = str(int(scores[3] * 100))
+	%time.text = str(int(roundtime / 60)).pad_zeros(2) + ":" + str(int(roundtime) % 60).pad_zeros(2)
 	
 	if %won.text.contains("win"):
 		init()
@@ -156,10 +182,15 @@ func _process(_delta: float) -> void:
 		%won.text = "Virus wins!"
 		%won.modulate = Color(1,1,1)
 		text_cooldown = 2
+		if roundtime < 100:
+			scores[vi] += (100 - roundtime) / 100
+		else:
+			scores[vi] += 100 / roundtime
 	if contaminated == 0 and cells < max_cells:
 		%won.text = "White Bloodcells win!"
 		%won.modulate = Color(1,1,1)
 		text_cooldown = 2
+		scores[vi] -= cells * 1. / max_cells
 	
 	if not red and any_key_pressed(keys[0]) and not started:
 		red = true
@@ -167,24 +198,28 @@ func _process(_delta: float) -> void:
 		add_child(c)
 		c.init(0)
 		c.position = Vector2(100, 100)
+		%red_score.visible = true
 	if not green and any_key_pressed(keys[1]) and not started:
 		green = true
 		var c = preload("res://scenes/whitebloodcell.tscn").instantiate()
 		add_child(c)
 		c.init(1)
 		c.position = Vector2(get_viewport_rect().size.x - 100, get_viewport_rect().size.y - 100)
+		%green_score.visible = true
 	if not blue and any_key_pressed(keys[2]) and not started:
 		blue = true
 		var c = preload("res://scenes/whitebloodcell.tscn").instantiate()
 		add_child(c)
 		c.init(2)
 		c.position = Vector2(get_viewport_rect().size.x - 100, 100)
+		%blue_score.visible = true
 	if not purple and any_key_pressed(keys[3]) and not started:
 		purple = true
 		var c = preload("res://scenes/whitebloodcell.tscn").instantiate()
 		add_child(c)
 		c.init(3)
 		c.position = Vector2(100, get_viewport_rect().size.y - 100)
+		%purple_score.visible = true
 	
 	if red and green and blue and purple and started:
 		red = false

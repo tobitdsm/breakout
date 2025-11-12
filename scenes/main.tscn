@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://fop01yrfd6on"]
+[gd_scene load_steps=14 format=4 uid="uid://fop01yrfd6on"]
 
 [ext_resource type="Script" uid="uid://bv34ngmorseus" path="res://scripts/main.gd" id="1_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://d1ybke6qxhkyr" path="res://assets/images/terrain atlas.png" id="2_0wfyh"]
@@ -453,6 +453,21 @@ font_size = 23
 [sub_resource type="LabelSettings" id="LabelSettings_sugp2"]
 font_size = 100
 
+[sub_resource type="LabelSettings" id="LabelSettings_jyhfs"]
+font_size = 23
+
+[sub_resource type="LabelSettings" id="LabelSettings_tefeu"]
+font_size = 23
+
+[sub_resource type="LabelSettings" id="LabelSettings_o6xl0"]
+font_size = 23
+
+[sub_resource type="LabelSettings" id="LabelSettings_tipki"]
+font_size = 23
+
+[sub_resource type="LabelSettings" id="LabelSettings_tbgi4"]
+font_size = 23
+
 [node name="root" type="Node2D"]
 script = ExtResource("1_o6xl0")
 
@@ -499,6 +514,67 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "   utbreak"
 label_settings = SubResource("LabelSettings_sugp2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="red_score" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 0, 0, 1)
+z_index = 1
+offset_left = 14.0
+offset_top = 9.0
+offset_right = 91.0
+offset_bottom = 41.0
+text = "100"
+label_settings = SubResource("LabelSettings_jyhfs")
+vertical_alignment = 1
+
+[node name="green_score" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(0, 1, 0, 1)
+z_index = 1
+offset_left = 1042.0
+offset_top = 609.0
+offset_right = 1137.0
+offset_bottom = 641.0
+text = "100"
+label_settings = SubResource("LabelSettings_tefeu")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="blue_score" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(0, 0, 1, 1)
+z_index = 1
+offset_left = 1021.0
+offset_top = 9.0
+offset_right = 1137.0
+offset_bottom = 41.0
+text = "100"
+label_settings = SubResource("LabelSettings_o6xl0")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="purple_score" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 0, 1, 1)
+z_index = 1
+offset_left = 13.0
+offset_top = 609.0
+offset_right = 143.0
+offset_bottom = 641.0
+text = "100"
+label_settings = SubResource("LabelSettings_tipki")
+vertical_alignment = 1
+
+[node name="time" type="Label" parent="."]
+unique_name_in_owner = true
+z_index = 1
+offset_left = 518.0
+offset_top = 608.0
+offset_right = 632.0
+offset_bottom = 631.0
+label_settings = SubResource("LabelSettings_tbgi4")
 horizontal_alignment = 1
 vertical_alignment = 1
 
