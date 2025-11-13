@@ -1,9 +1,3 @@
-res://scenes/cell.tscn
-res://scripts/player.gd
-res://scripts/main.gd
-res://scripts/virus.gd
 res://scenes/main.tscn
-res://scenes/virus.tscn
-res://scenes/whitebloodcell.tscn
+res://scripts/main.gd
 res://scripts/cell.gd
-res://scripts/whitebloodcell.gd

@@ -17,8 +17,6 @@ var rot = randf() * 360
 const scared_distance = 50.0
 const speed = .75
 
-var colliding = 0
-
 var oldpos := position
 
 # Called when the node enters the scene tree for the first time.
@@ -31,6 +29,20 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if sick > 0:
+		sick -= delta
+	elif contaminated:
+		self.get_parent().contaminated -= 1
+		self.get_parent().cells -= 1
+		self.queue_free()
+	elif is_colliding():
+		get_parent().max_cells -= 1
+		get_parent().cells -= 1
+		if contaminated:
+			get_parent().contaminated -= 1
+		self.queue_free()
+
+func _physics_process(delta: float) -> void:
 	var base_color = Color(1.5,1.5,1.5)
 	var left = 0
 	if contaminated:
@@ -50,7 +62,6 @@ func _process(delta: float) -> void:
 	var collision = move_and_collide(linear_velocity)
 	if collision:
 		rot = 2 * collision.get_normal().angle() - rot + 180
-	
 	
 	var areas = self.get_child(0).get_overlapping_areas()
 	for area in areas:
@@ -72,26 +83,15 @@ func _process(delta: float) -> void:
 	elif not contaminated and color != Color(1,1,1):
 		color = Color(1,1,1)
 	
-	if sick > 0:
-		sick -= delta
-	elif contaminated:
-		self.get_parent().contaminated -= 1
-		self.get_parent().cells -= 1
-		self.queue_free()
-	elif is_colliding():
-		get_parent().max_cells -= 1
-		get_parent().cells -= 1
-		if contaminated:
-			get_parent().contaminated -= 1
-		self.queue_free()
+	
 
 func is_colliding() -> bool:
-	if position.x <= 0 or position.x >= get_viewport_rect().size.x or position.y <= 0 or position.y >= get_viewport_rect().size.y:
-		return true
 	var tml: TileMapLayer = get_parent().get_child(0)
 	var cell := tml.local_to_map(position)
+	if not cell and cell != Vector2i(0,0):
+		return true
 	var tiledata: TileData = tml.get_cell_tile_data(cell)
 	if tiledata:
-		return tiledata.terrain == 1 or oldpos == position
+		return tiledata.terrain == 1 # or position == oldpos
 	else:
 		return true

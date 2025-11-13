@@ -1,5 +1,5 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1762776963
+::res://::1763020151
 README.md::TextFile::-1::1762168357::0::1::::<><><>0<>0<><>::
 ::res://addons/::1758121346
 ::res://addons/godot-git-plugin/::1762168881
@@ -19,20 +19,20 @@ virus.png::CompressedTexture2D::7649881769731210174::1762173010::1762776963::1::
 whitebloodcell.png::CompressedTexture2D::7738586191469084738::1762172938::1762776963::1::::<><><>0<>0<>8b552fbd5d5aa041a891c7a64624e00d<>res://.godot/imported/whitebloodcell.png-23a90132651fe1260d1354b721aac338.ctex::
 ::res://assets/sounds/::1762776954
 amogus.mp3::AudioStreamMP3::5498851872562627935::1698050910::1762776954::1::::<><><>0<>0<>298cf2de1d51ab771ef3e2d9e7572590<>res://.godot/imported/amogus.mp3-0f0954d1720da745fe6088ca62600cf2.mp3str::
-::res://scenes/::1762776963
-cell.tscn::PackedScene::5352479963205323409::1762776963::0::1::::<><><>0<>0<><>::uid://db3m1d2q0rpr4::::res://assets/images/cell.png<>uid://bbq6suswlrrju::::res://scripts/cell.gd
+::res://scenes/::1762962843
+cell.tscn::PackedScene::5352479963205323409::1762962236::0::1::::<><><>0<>0<><>::uid://db3m1d2q0rpr4::::res://assets/images/cell.png<>uid://bbq6suswlrrju::::res://scripts/cell.gd
 empty_map.tscn::PackedScene::5376551212974570686::1762514452::0::1::::<><><>0<>0<><>::
-main.tscn::PackedScene::380802309947765997::1762776963::0::1::::<><><>0<>0<><>::uid://bv34ngmorseus::::res://scripts/main.gd<>uid://d1ybke6qxhkyr::::res://assets/images/terrain atlas.png
-virus.tscn::PackedScene::6700131395012778497::1762776963::0::1::::<><><>0<>0<><>::uid://dg8wo17u060co::::res://assets/images/virus.png<>uid://cq4w4oxmvxli5::::res://scripts/virus.gd<>uid://dly2gpynq15kc::::res://assets/images/meter.png
-whitebloodcell.tscn::PackedScene::3339329795723204231::1762776963::0::1::::<><><>0<>0<><>::uid://diivnb330sc55::::res://assets/images/whitebloodcell.png<>uid://dly2gpynq15kc::::res://assets/images/meter.png<>uid://bfa3hlfpedswv::::res://scripts/whitebloodcell.gd
-::res://scenes/maps/::1762772330
-clash_royale.tscn::PackedScene::6779390995295442169::1762514017::0::1::::<><><>0<>0<><>::
+main.tscn::PackedScene::380802309947765997::1762962843::0::1::::<><><>0<>0<><>::uid://bv34ngmorseus::::res://scripts/main.gd<>uid://d1ybke6qxhkyr::::res://assets/images/terrain atlas.png<>uid://dg8wo17u060co::::res://assets/images/virus.png
+virus.tscn::PackedScene::6700131395012778497::1762959696::0::1::::<><><>0<>0<><>::uid://dg8wo17u060co::::res://assets/images/virus.png<>uid://cq4w4oxmvxli5::::res://scripts/virus.gd<>uid://dly2gpynq15kc::::res://assets/images/meter.png
+whitebloodcell.tscn::PackedScene::3339329795723204231::1762961500::0::1::::<><><>0<>0<><>::uid://diivnb330sc55::::res://assets/images/whitebloodcell.png<>uid://dly2gpynq15kc::::res://assets/images/meter.png<>uid://bfa3hlfpedswv::::res://scripts/whitebloodcell.gd
+::res://scenes/maps/::1762961420
+clash_royale.tscn::PackedScene::6779390995295442169::1762961420::0::1::::<><><>0<>0<><>::
 flappy_bird.tscn::PackedScene::177479390485971563::1762771548::0::1::::<><><>0<>0<><>::
 pacman.tscn::PackedScene::6132570042460353826::1762513205::0::1::::<><><>0<>0<><>::
 the_skeld.tscn::PackedScene::7817289425667620094::1762433662::0::1::::<><><>0<>0<><>::
-::res://scripts/::1762773688
-cell.gd::GDScript::2491555021750587906::1762514452::0::1::::<>RigidBody2D<><>0<>0<><>::
-main.gd::GDScript::3919973319653726250::1762773333::0::1::::<>Node2D<><>0<>0<><>::
-player.gd::GDScript::571009398499929723::1762773688::0::1::::<>RigidBody2D<><>0<>0<><>::
-virus.gd::GDScript::5957118153758166690::1762771980::0::1::::<><><>0<>0<><>::
-whitebloodcell.gd::GDScript::2739078064405948097::1762428450::0::1::::<><><>0<>0<><>::
+::res://scripts/::1762962843
+cell.gd::GDScript::2491555021750587906::1762962383::0::1::::<>RigidBody2D<><>0<>0<><>::
+main.gd::GDScript::3919973319653726250::1762962843::0::1::::<>Node2D<><>0<>0<><>::
+player.gd::GDScript::571009398499929723::1762951553::0::1::::<>CharacterBody2D<><>0<>0<><>::
+virus.gd::GDScript::5957118153758166690::1762779188::0::1::::<><><>0<>0<><>::
+whitebloodcell.gd::GDScript::2739078064405948097::1762779191::0::1::::<><><>0<>0<><>::
