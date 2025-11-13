@@ -21,11 +21,13 @@ script = ExtResource("2_lj21t")
 shape = SubResource("CircleShape2D_ibwa4")
 
 [node name="cooldown" type="Sprite2D" parent="."]
+z_index = 1
 position = Vector2(0, 17)
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("2_digf7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
 scale = Vector2(0.056, 0.056)
 texture = ExtResource("1_cdo6j")
 

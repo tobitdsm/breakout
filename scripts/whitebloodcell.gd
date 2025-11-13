@@ -11,16 +11,17 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	super._process(delta)
-	if wait > 0:
-		wait -= delta
-	elif Input.is_physical_key_pressed(keyaction):
-		var areas = self.get_child(0).get_overlapping_areas()
-		for area in areas:
-			if area.is_in_group("cell") and area.get_parent().contaminated:
-				wait = cooldown
-				area.get_parent().color = color
-				area.get_parent().contaminated = false
-				area.get_parent().healed = area.get_parent().healed_cooldown
-				area.get_parent().sick = 0
-				get_parent().contaminated -= 1
+	if get_parent().end_cooldown <= 0:
+		super._process(delta)
+		if wait > 0:
+			wait -= delta
+		elif Input.is_physical_key_pressed(keyaction):
+			var areas = self.get_child(0).get_overlapping_areas()
+			for area in areas:
+				if area.is_in_group("cell") and area.get_parent().contaminated:
+					wait = cooldown
+					area.get_parent().color = color
+					area.get_parent().contaminated = false
+					area.get_parent().healed = area.get_parent().healed_cooldown
+					area.get_parent().sick = 0
+					get_parent().contaminated -= 1
