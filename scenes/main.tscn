@@ -529,9 +529,9 @@ text = "100"
 label_settings = SubResource("LabelSettings_o6xl0")
 horizontal_alignment = 2
 
-[node name="purple_score" type="Label" parent="."]
+[node name="yellow_score" type="Label" parent="."]
 unique_name_in_owner = true
-modulate = Color(1, 0, 1, 1)
+modulate = Color(1, 1, 0, 1)
 z_index = 2
 offset_left = 13.0
 offset_top = 408.0

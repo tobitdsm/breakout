@@ -21,7 +21,7 @@ var scores = [
 	0, # red
 	0, # green
 	0, # blue
-	0  # purple
+	0  # yellow
 ]
 const rounds = 8
 var curr_round = 0
@@ -35,7 +35,7 @@ var end_cooldown = 0
 var red = false
 var green = false
 var blue = false
-var purple = false
+var yellow = false
 
 var started = false
 var ended = false
@@ -72,7 +72,7 @@ const colors = [
 	Color("red"),
 	Color("green"),
 	Color("blue"),
-	Color("purple")
+	Color("yellow")
 ]
 
 # Called when the node enters the scene tree for the first time.
@@ -88,7 +88,7 @@ func _ready() -> void:
 	%red_score.visible = false
 	%green_score.visible = false
 	%blue_score.visible = false
-	%purple_score.visible = false
+	%yellow_score.visible = false
 	%time.visible = false
 	init_children = get_child_count() - 1
 	cells = 0
@@ -102,7 +102,7 @@ func init() -> int:
 	%red_score.visible = true
 	%green_score.visible = true
 	%blue_score.visible = true
-	%purple_score.visible = true
+	%yellow_score.visible = true
 	%time.visible = true
 	
 	for i in get_child_count():
@@ -144,7 +144,7 @@ func init() -> int:
 			valid = is_valid(pos)
 		c.position = pos
 	
-	%won.text = ["Red","Green","Blue","Purple"][vi] + " is virus"
+	%won.text = ["Red","Green","Blue","yellow"][vi] + " is virus"
 	%won.modulate = colors[vi]
 	text_cooldown = 2
 	%time.label_settings.font_size = 23
@@ -161,14 +161,14 @@ func end() -> void:
 	add_child(map)
 	move_child(map, 0)
 	var woni = scores.find(scores.max())
-	%won.text = ["Red","Green","Blue","Purple"][woni] + " wins!"
+	%won.text = ["Red","Green","Blue","yellow"][woni] + " wins!"
 	%won.modulate = colors[woni];
 	%time.visible = false
 	%virus_score.visible = false
 	%red_score.label_settings.font_size = 100
 	%green_score.label_settings.font_size = 100
 	%blue_score.label_settings.font_size = 100
-	%purple_score.label_settings.font_size = 100
+	%yellow_score.label_settings.font_size = 100
 
 func make_cells(i) -> int:
 	var cs = 0
@@ -240,7 +240,7 @@ func _process(delta: float) -> void:
 	if end_cooldown > 0:
 		end_cooldown -= delta
 		if end_cooldown <= 0:
-			[%red_score,%green_score,%blue_score,%purple_score][vi].label_settings.font_size = 23
+			[%red_score,%green_score,%blue_score,%yellow_score][vi].label_settings.font_size = 23
 			if (init()):
 				end()
 				ended = true
@@ -270,7 +270,7 @@ func _process(delta: float) -> void:
 		
 		if %won.text.contains("win"):
 			end_cooldown = 2
-			[%red_score,%green_score,%blue_score,%purple_score][vi].label_settings.font_size = 100
+			[%red_score,%green_score,%blue_score,%yellow_score][vi].label_settings.font_size = 100
 		
 		else:
 			if started and roundtime <= 60:
@@ -288,7 +288,7 @@ func _process(delta: float) -> void:
 			%red_score.text = str(scores[0])
 			%green_score.text = str(scores[1])
 			%blue_score.text = str(scores[2])
-			%purple_score.text = str(scores[3])
+			%yellow_score.text = str(scores[3])
 			
 			if not red and any_key_pressed(keys[0]) and not started:
 				red = true
@@ -311,23 +311,23 @@ func _process(delta: float) -> void:
 				c.init(2)
 				c.position = Vector2(get_viewport_rect().size.x - 100, 100)
 				%blue_score.visible = true
-			if not purple and any_key_pressed(keys[3]) and not started:
-				purple = true
+			if not yellow and any_key_pressed(keys[3]) and not started:
+				yellow = true
 				var c = virus.instantiate()
 				add_child(c)
 				c.init(3)
 				c.position = Vector2(100, get_viewport_rect().size.y - 100)
-				%purple_score.visible = true
+				%yellow_score.visible = true
 			
-			if red and green and blue and purple and started:
+			if red and green and blue and yellow and started:
 				red = false
 				green = false
 				blue = false
-				purple = false
+				yellow = false
 				curr_round = 0
 				init()
 			
-			if red and green and blue and purple and not started:
+			if red and green and blue and yellow and not started:
 				started = true
 
 func any_key_pressed(check_keys) -> bool:
