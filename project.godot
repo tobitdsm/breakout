@@ -15,7 +15,7 @@ run/main_scene="uid://fop01yrfd6on"
 config/features=PackedStringArray("4.5", "Forward Plus")
 boot_splash/fullsize=false
 boot_splash/image="uid://crqp1dgvg46cs"
-config/icon="res://assets/images/icon.svg"
+config/icon="uid://dg8wo17u060co"
 
 [display]
 

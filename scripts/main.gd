@@ -14,6 +14,7 @@ var max_cells = init_cells
 var cells = max_cells
 var vi = -1
 
+var points = 0
 
 var roundtime = 90
 var scores = [
@@ -76,8 +77,14 @@ const colors = [
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	%cells.visible = false
-	%contaminated.visible = false
+	assert(f(0,0) == -1)
+	assert(f(0,1) == -1.5)
+	assert(f(1,0) == 1)
+	assert(f(1,1) == 1.5)
+	assert(f(0.5,0.5) == 0)
+	assert(f(0.25,0.5) < 0)
+	assert(f(0.75,0.5) > 0)
+	%virus_score.visible = false
 	%red_score.visible = false
 	%green_score.visible = false
 	%blue_score.visible = false
@@ -91,8 +98,7 @@ func _ready() -> void:
 		maps.append(map)
 
 func init() -> int:
-	%cells.visible = true
-	%contaminated.visible = true
+	%virus_score.visible = true
 	%red_score.visible = true
 	%green_score.visible = true
 	%blue_score.visible = true
@@ -125,7 +131,7 @@ func init() -> int:
 		var c = wbc.instantiate()
 		if i == vi:
 			c = virus.instantiate()
-			%contaminated.modulate = colors[vi]
+			%virus_score.modulate = colors[vi]
 		add_child(c)
 		c.init(i)
 		var valid = false
@@ -142,6 +148,7 @@ func init() -> int:
 	%won.modulate = colors[vi]
 	text_cooldown = 2
 	%time.label_settings.font_size = 23
+	%time.label_settings.font_color.a = 1
 	
 	roundtime = 90
 	
@@ -155,11 +162,9 @@ func end() -> void:
 	move_child(map, 0)
 	var woni = scores.find(scores.max())
 	%won.text = ["Red","Green","Blue","Purple"][woni] + " wins!"
-	print(%won.text)
 	%won.modulate = colors[woni];
 	%time.visible = false
-	%cells.visible = false
-	%contaminated.visible = false
+	%virus_score.visible = false
 	%red_score.label_settings.font_size = 100
 	%green_score.label_settings.font_size = 100
 	%blue_score.label_settings.font_size = 100
@@ -184,7 +189,7 @@ func is_valid(pos: Vector2) -> bool:
 		return false
 	var tilemap = get_child(0)
 	var cellpos = tilemap.local_to_map(pos)
-	if not cellpos:
+	if not cellpos and cellpos != Vector2i(0,0):
 		return false
 	var tiledata: TileData = tilemap.get_cell_tile_data(cellpos)
 	if not tiledata or tiledata.terrain != 0:
@@ -200,6 +205,34 @@ func is_valid(pos: Vector2) -> bool:
 			return false
 	
 	return true
+
+
+func f(x: float, y: float) -> float:
+	# This function calculates a score in [-1,1] based on
+	# x = total contaminated/dead cell rate (x ∈ [0,1])
+	# y = time left in the round in minutes (y ∈ [0,1.5])
+	# This function is made to meet the following constraints:
+	# f(0,0) = -1  -- time's up and no cells were contaminated or killed
+	# f(0,1) = -1.5  -- no cells were contaminated or killed after 30sec, the earliest time the game can end
+	# f(1,0) = 1  -- time's up and all cells were contaminated or killed
+	# f(1,1) = 1.5  -- all cells were contaminated or killed in 30sec, the earliest time the game can end
+	# f(0.5, y<1) < 0  -- the round is lasting longer than 30sec, and exactly half the cells were contaminated/killed
+	# f(x>0.5, y<1) > 0  -- the round is lasting longer than 30sec, and many cells were contaminated/killed
+	# f(x<0.5, y<1) < 0  -- the round is lasting longer than 30sec, and not much cells were contaminated/killed
+	# The full mathematical expression in polynomial form is as follows:
+	# f(x,y) = 2x - y/2 - 1 + xy
+	# If the round is over, so y = 0, this function simplifies to:
+	# f(x,0) = 2x - 1
+	# which is a rescaling of x ∈ [0,1] to [-1,1] in linear form to give points purely based on the contaminated+killed ratio.
+	# For a given score s, the function can be interpreted as a Conic section:
+	# xy + 2x - y/2 - 1 - s = 0
+	# This Conic section is a Hyperbola, and will be degenerate if and only if s = 0, so when the game is perfectly balanced.
+	# A degenerate Hyperbola consists of two intersecting straight lines, in this case:
+	# (x - 1/2)(y + 2) = 0
+	# l1: x = 1/2
+	# l2: y = -2
+	# Since y > 0 in the defined domain, s = 0 will only happen if x = 1/2, so when exactly half of all cells were contaminated or killed.
+	return 2*x - y/2 - 1 + x*y
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -222,13 +255,17 @@ func _process(delta: float) -> void:
 			roundtime -= delta
 		if roundtime <= 15:
 			%time.label_settings.font_size = 100
+			%time.label_settings.font_color.a = .5
 		
 		text_cooldown -= delta
 		if text_cooldown < 0 and started and %won.text.ends_with("virus"):
 			%won.text = ""
 		
-		%contaminated.text = str(round(contaminated * 1000. / cells) / 10.) + "%"
-		%cells.text = str(round(cells * 1000. / max_cells) / 10.) + "%"
+		
+		var x = ((contaminated + max_cells - cells) * 1. / max_cells) # 0 - 1
+		var y = (roundtime * 1. / 60) # 0 - 1.5
+		points = clampi(int(100 * f(x, y)), -150, 150)
+		%virus_score.text = str(points)
 		%time.text = str(int(ceil(roundtime) / 60)).pad_zeros(2) + ":" + str(int(ceil(roundtime)) % 60).pad_zeros(2)
 		
 		if %won.text.contains("win"):
@@ -237,32 +274,21 @@ func _process(delta: float) -> void:
 		
 		else:
 			if started and roundtime <= 60:
-				if roundtime < 0:
-					if contaminated >= (cells * 1. / 2):
+				if roundtime <= 0 or contaminated == cells or (contaminated == 0 and cells < max_cells):
+					scores[vi] += points
+					%won.modulate = Color(1,1,1)
+					text_cooldown = 2
+					if points == 0:
+						%won.text = "Tie!"
+					elif points > 0:
 						%won.text = "Virus wins!"
-						%won.modulate = Color(1,1,1)
-						text_cooldown = 2
-						scores[vi] += (contaminated + max_cells - cells) * 1. / max_cells
 					else:
 						%won.text = "White Bloodcells win!"
-						%won.modulate = Color(1,1,1)
-						text_cooldown = 2
-						scores[vi] -= .5 - (contaminated * 1. / cells)
-				if contaminated == cells:
-					%won.text = "Virus wins!"
-					%won.modulate = Color(1,1,1)
-					text_cooldown = 2
-					scores[vi] += roundtime * 1. / 100
-				if contaminated == 0 and cells < max_cells:
-					%won.text = "White Bloodcells win!"
-					%won.modulate = Color(1,1,1)
-					text_cooldown = 2
-					scores[vi] -= cells * 1. / max_cells
 			
-			%red_score.text = str(int(scores[0] * 100))
-			%green_score.text = str(int(scores[1] * 100))
-			%blue_score.text = str(int(scores[2] * 100))
-			%purple_score.text = str(int(scores[3] * 100))
+			%red_score.text = str(scores[0])
+			%green_score.text = str(scores[1])
+			%blue_score.text = str(scores[2])
+			%purple_score.text = str(scores[3])
 			
 			if not red and any_key_pressed(keys[0]) and not started:
 				red = true
