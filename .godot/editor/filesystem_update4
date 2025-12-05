@@ -1,0 +1,7 @@
+res://scenes/main.tscn
+res://scripts/main.gd
+res://scenes/maps/clash_royale.tscn
+res://scenes/maps/flappy_bird.tscn
+res://scenes/maps/pacman.tscn
+res://scenes/maps/the_skeld.tscn
+res://scenes/empty_map.tscn

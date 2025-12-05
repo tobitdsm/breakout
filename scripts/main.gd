@@ -1,8 +1,13 @@
 extends Node2D
 
-var maps := []
-
 const end_map = preload("res://scenes/empty_map.tscn")
+
+const maps = [
+	preload("res://scenes/maps/clash_royale.tscn"),
+	preload("res://scenes/maps/flappy_bird.tscn"),
+	preload("res://scenes/maps/pacman.tscn"),
+	preload("res://scenes/maps/the_skeld.tscn")
+]
 
 const virus = preload("res://scenes/virus.tscn")
 const wbc = preload("res://scenes/whitebloodcell.tscn")
@@ -92,10 +97,6 @@ func _ready() -> void:
 	%time.visible = false
 	init_children = get_child_count() - 1
 	cells = 0
-	var mapdir := DirAccess.open("res://scenes/maps")
-	for i in len(mapdir.get_files()):
-		var map = load("res://scenes/maps/" + mapdir.get_files()[i])
-		maps.append(map)
 
 func init() -> int:
 	%virus_score.visible = true
